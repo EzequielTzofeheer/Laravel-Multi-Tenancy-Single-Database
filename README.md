@@ -1,4 +1,4 @@
-# Laravel 12 + Docker + Jetstream (Starter)
+# 🏢 Laravel Multi Tenancy — Single Database
 
 ![Laravel](https://img.shields.io/badge/Laravel-12-red)
 ![Docker](https://img.shields.io/badge/Docker-ready-blue)
@@ -8,16 +8,49 @@
 
 ## 📌 O que é
 
-Um starter kit base para projetos **Laravel 12.x** utilizando **Docker** e **Jetstream 5.x**, com ambiente completo já configurado para desenvolvimento.
+Um starter kit arquitetural para projetos Laravel 12.x utilizando Multi Tenancy com Banco de Dados Único (Single Database).
+
+O projeto fornece uma base sólida para aplicações SaaS, B2B ou plataformas multiempresas, onde múltiplos tenants compartilham o mesmo banco de dados, mantendo isolamento lógico, segurança e escalabilidade.
+
+Tudo roda em Docker, com ambiente padronizado e pronto para desenvolvimento.
 
 ---
 
 ## 🎯 Para que serve
 
-- Iniciar novos projetos Laravel rapidamente
-- Padronizar o ambiente entre desenvolvedores
-- Eliminar dependências locais (PHP, MySQL, Redis)
-- Servir como base reutilizável para outros branches
+- Construir aplicações multi-tenant desde o início
+- Criar SaaS com múltiplas empresas, clientes ou organizações
+- Reduzir custos de infraestrutura (1 banco, N tenants)
+- Padronizar ambiente entre desenvolvedores
+- Acelerar o início de novos projetos
+- Servir como base reutilizável para outros produtos ou branches
+
+---
+
+## 🧠 O que é Multi Tenancy (Single Database)
+
+Neste modelo:
+
+- Um único banco de dados
+- Múltiplos tenants (empresas/organizações)
+- Cada tenant possui seus próprios dados
+- O isolamento ocorre por tenant_id
+- O Laravel garante que cada requisição enxergue apenas seus próprios dados
+- Mais simples de manter
+- Mais barato
+- Ideal para SaaS em crescimento
+
+---
+
+## 🧩 Modelo de Tenancy adotado
+
+- Single Database
+- Single Schema
+- Isolamento por tenant_id
+- Resolução automática do tenant via:
+  - usuário autenticado
+  - subdomínio (opcional)
+  - header ou contexto da requisição
 
 ---
 
@@ -25,18 +58,20 @@ Um starter kit base para projetos **Laravel 12.x** utilizando **Docker** e **Jet
 
 - PHP 8.2
 - Laravel 12.x
+- Jetstream 5.x
 - Docker
-- Docker Compose
-- Nginx
-- MySQL 8
-- PHPMyAdmin
-- Redis
+  - Docker Compose
+  - Nginx
+  - MySQL 8
+  - Redis
+  - PHPMyAdmin
+  - Node.js / NPM
 
 ---
 
-## 🧠 Como funciona
+## 🐳 Arquitetura Docker
 
-A aplicação roda totalmente em containers Docker:
+A aplicação roda totalmente em containers:
 
 1. O **Nginx** recebe as requisições HTTP
 2. Encaminha requisições PHP para o container **app**
@@ -45,7 +80,7 @@ A aplicação roda totalmente em containers Docker:
 5. Cache, filas e sessões utilizam **Redis**
 6. Jobs assíncronos são processados pelo container **queue**
 
-A comunicação ocorre via **network interna do Docker**, usando o nome dos serviços como host.
+Toda a comunicação ocorre via network interna do Docker.
 
 ---
 
@@ -65,13 +100,13 @@ A comunicação ocorre via **network interna do Docker**, usando o nome dos serv
 1️⃣ Clone o repositório
 
 ```
-git clone -b Laravel-12.x-Docker-Jetstream-5.x https://github.com/EzequielTzofeheer/Laravel-Docker
+https://github.com/EzequielTzofeheer/Laravel-Multi-Tenancy-Single-Database
 ```
 
 2️⃣ Acesse a pasta do projeto
 
 ```
-cd Laravel-Docker
+cd Laravel-Multi-Tenancy-Single-Database
 ```
 
 3️⃣ Crie o arquivo de ambiente
@@ -125,16 +160,21 @@ php artisan migrate
 
 ## 🌐 Acessos
 
-- Aplicação: http://localhost:8090
-- PhpMyAdmin: http://localhost:8550
+- Aplicação: http://localhost:8092
+- PhpMyAdmin: http://localhost:8552
+
+---
+
+## 🏷️ Versionamento
+
+- A branch **main** acompanha sempre a versão mais recente
+- As **tags** representam a versão do Laravel
 
 ---
 
 ## 🌱 Branches do Repositório
 
-- Laravel-12.x-Docker → base do projeto
-- Laravel-12.x-Docker-Jetstream-5.x
-- Laravel-12.x-Docker-Livewire-4.x-Starter-Kit
+- main → última versão estável
 
 ---
 
@@ -152,8 +192,9 @@ php artisan migrate
 
 Contribuições são bem-vindas.
 
-- Abra uma issue para sugestões ou bugs
-- Pull requests devem ser claros e objetivos
+- Abra uma **issue** para sugestões ou bugs
+- Envie um **pull requests** bem documentados
+- Siga o padrão de commits do projeto
 
 ---
 
@@ -162,17 +203,8 @@ Contribuições são bem-vindas.
 Criado e mantido por **Ezequiel Tzofeheer**
 
 - Desenvolvedor Full Stack
-- Foco em arquitetura, produtividade, segurança e boas práticas
-
----
-
-## 🙌 Créditos
-
-- PHP
-- Laravel Framework
-- Jetstream
-- Docker
-- Comunidade Open Source
+- Foco em arquitetura, SaaS, produtividade e boas práticas
+- Laravel • Docker • Sistemas Escaláveis
 
 ---
 
