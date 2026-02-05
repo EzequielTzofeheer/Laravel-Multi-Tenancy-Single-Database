@@ -1,51 +1,81 @@
-version: "3.7"
 services:
 
-    ## Image
-    laravel_multi_tenancy_singel_database:
+    # Image
+    app:
         build:
-            args:
-                user: ezequieldhonatan
-                uid: 1000
-            context: ./
+            context: .
             dockerfile: Dockerfile
-        image: laravel-app
         restart: unless-stopped
         working_dir: /var/www/
         volumes:
             - ./:/var/www
+        depends_on:
+            - redis
         networks:
-            - github
+            - Laravel-Multi-Tenancy-Single-Database
 
-    ## Nginx
+    # NGINX
     nginx:
         image: nginx:alpine
         restart: unless-stopped
         ports:
-            - 8000:80
-            - 443:443
+            - "8092:80"
         volumes:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
-            - github
+            - Laravel-Multi-Tenancy-Single-Database
 
-    ## MySQL
-    db_laravel_multi_tenancy_singel_database:
-        image: mysql:5.7.22
+    # DB (MySQL)
+    db:
+        image: mysql:8.0
+        platform: linux/x86_64
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
+            MYSQL_USER: ${DB_USERNAME:-username}
         volumes:
             - ./.docker/mysql/dbdata:/var/lib/mysql
         ports:
-            - 3306:3306
+            - "3442:3306"
         networks:
-            - github
+            - Laravel-Multi-Tenancy-Single-Database
+
+    # PHPMyAdmin
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        platform: linux/x86_64
+        restart: unless-stopped
+        ports:
+            - "8552:80"
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+        networks:
+            - Laravel-Multi-Tenancy-Single-Database
+
+    # Redis
+    redis:
+        image: redis:latest
+        networks:
+            - Laravel-Multi-Tenancy-Single-Database
+
+    queue:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      command: 'php artisan queue:work'
+      restart: unless-stopped
+      volumes:
+        - ./:/var/www
+      depends_on:
+        - redis
+      networks:
+        - Laravel-Multi-Tenancy-Single-Database
 
 networks:
-    github:
+    Laravel-Multi-Tenancy-Single-Database:
         driver: bridge

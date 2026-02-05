@@ -1,45 +1,191 @@
-# LARAVEL MULTI TENANCY SINGLE DATABASE
+# Laravel 12 + Docker + Jetstream (Starter)
 
-Sistema com múltiplos clientes, todos na mesma aplicação e no mesmo database (Banco de dados).
+![Laravel](https://img.shields.io/badge/Laravel-12-red)
+![Docker](https://img.shields.io/badge/Docker-ready-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-### Instalação
+---
 
-Levando em consideração que você já tenha instalado em sua máquina o "DOCKER", "DOCKER COMPOSE" e o "NPM". Vamos seguir para a instalação!
+## 📌 O que é
 
-Clonar Projeto
-```sh
-git clone https://github.com/ezequieldhonatan/laravel-multi-tenancy-single-database
+Um starter kit base para projetos **Laravel 12.x** utilizando **Docker** e **Jetstream 5.x**, com ambiente completo já configurado para desenvolvimento.
+
+---
+
+## 🎯 Para que serve
+
+- Iniciar novos projetos Laravel rapidamente
+- Padronizar o ambiente entre desenvolvedores
+- Eliminar dependências locais (PHP, MySQL, Redis)
+- Servir como base reutilizável para outros branches
+
+---
+
+## 🧱 Stack
+
+- PHP 8.2
+- Laravel 12.x
+- Docker
+- Docker Compose
+- Nginx
+- MySQL 8
+- PHPMyAdmin
+- Redis
+
+---
+
+## 🧠 Como funciona
+
+A aplicação roda totalmente em containers Docker:
+
+1. O **Nginx** recebe as requisições HTTP
+2. Encaminha requisições PHP para o container **app**
+3. O **Laravel** processa a requisição
+4. Dados são persistidos no **MySQL**
+5. Cache, filas e sessões utilizam **Redis**
+6. Jobs assíncronos são processados pelo container **queue**
+
+A comunicação ocorre via **network interna do Docker**, usando o nome dos serviços como host.
+
+---
+
+## 🐳 Serviços Docker
+
+- **app**: container principal da aplicação Laravel
+- **queue**: worker para processamento de filas
+- **nginx**: servidor web
+- **db**: banco de dados MySQL
+- **phpmyadmin**: interface gráfica para o MySQL
+- **redis**: cache, filas e sessões
+
+---
+
+## 🚀 Instalação Rápida]
+
+1️⃣ Clone o repositório
+
+```
+git clone -b Laravel-12.x-Docker-Jetstream-5.x https://github.com/EzequielTzofeheer/Laravel-Docker
 ```
 
-Acessar o projeto
-```sh
-cd laravel-multi-tenancy-single-database
+2️⃣ Acesse a pasta do projeto
+
+```
+cd Laravel-Docker
 ```
 
-Criar o Arquivo .env
-```sh
+3️⃣ Crie o arquivo de ambiente
+```
 cp .env.example .env
 ```
 
-Subir os containers do projeto
-```sh
-docker-compose up -d
+4️⃣ Suba os containers Docker
+
+```
+sudo docker compose up -d
 ```
 
-Acessar o container
-```sh
-docker-compose exec laravel_multi_tenancy_singel_database bash
+5️⃣ Acesse o container do Docker
+
+```
+sudo docker compose exec app bash
 ```
 
-Instalar as dependências do projeto
-```sh
+6️⃣ Instale as dependências do Laravel
+
+```
 composer install
 ```
 
-Gerar a key do projeto Laravel
-```sh
+7️⃣ Gere a chave da aplicação
+
+```
 php artisan key:generate
 ```
 
-Acessar o projeto
-[http://localhost:8000](http://localhost:8000)
+8️⃣ Instale as dependências utilizando NPM 
+
+```
+npm install
+```
+
+9️⃣ Compile as dependências utilziando NPM
+
+```
+npm run build
+```
+
+🔟 Migre o banco de dados
+
+```
+php artisan migrate
+```
+
+---
+
+## 🌐 Acessos
+
+- Aplicação: http://localhost:8090
+- PhpMyAdmin: http://localhost:8550
+
+---
+
+## 🌱 Branches do Repositório
+
+- Laravel-12.x-Docker → base do projeto
+- Laravel-12.x-Docker-Jetstream-5.x
+- Laravel-12.x-Docker-Livewire-4.x-Starter-Kit
+
+---
+
+## 🧩 Compatibilidade
+
+- PHP: 8.2+
+- Laravel: 12.x
+- Docker: 29+
+- Docker Compose: 5+
+- Jetstream 5+
+
+---
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas.
+
+- Abra uma issue para sugestões ou bugs
+- Pull requests devem ser claros e objetivos
+
+---
+
+## 👤 Autor
+
+Criado e mantido por **Ezequiel Tzofeheer**
+
+- Desenvolvedor Full Stack
+- Foco em arquitetura, produtividade, segurança e boas práticas
+
+---
+
+## 🙌 Créditos
+
+- PHP
+- Laravel Framework
+- Jetstream
+- Docker
+- Comunidade Open Source
+
+---
+
+## ⭐ Apoie o Projeto
+
+Se este repositório te ajudou:
+
+- Deixe uma ⭐ no GitHub
+- Compartilhe feedback
+- Contribua com melhorias
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
