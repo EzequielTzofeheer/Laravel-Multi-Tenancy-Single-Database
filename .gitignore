@@ -24,4 +24,5 @@ Homestead.yaml
 Thumbs.db
 /.github
 /.docker
+storage
 package-lock.json
